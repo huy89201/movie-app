@@ -11,11 +11,6 @@ import { useEffect, useMemo } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-interface CustomToastProps {
-  message: string;
-  type: "success" | "error" | "info" | "warning";
-}
-
 export default function MovieList() {
   const dispatch = useAppDispatch();
 
@@ -26,7 +21,7 @@ export default function MovieList() {
   const {
     data: movieByMovieType,
     isLoading: movieByMovieTypeLoading,
-    error: movieByMovieTypeError,
+    isError: movieByMovieTypeError,
   } = useGetMovieNowPlayinngQuery({
     page,
     movieListType,
@@ -34,7 +29,7 @@ export default function MovieList() {
 
   const {
     data: movieByQuery,
-    error: movieByQueryError,
+    isError: movieByQueryError,
     isLoading: movieByQueryLoading,
   } = useGetMovieBySearchQuery({ page, query });
 
@@ -56,7 +51,7 @@ export default function MovieList() {
 
   useEffect(() => {
     if (movieByMovieTypeError || movieByQueryError) showToast();
-  }, []);
+  }, [movieByMovieTypeError, movieByQueryError]);
 
   // Get init total page
   useEffect(() => {
@@ -66,10 +61,12 @@ export default function MovieList() {
       dispatch(initMovieSate(movieByMovieType.total_pages));
   }, [movieList]);
 
-  // console.log(movieByMovieTypeError, movieByQueryError);
-
   return (
     <>
+      {movieByMovieTypeLoading || movieByQueryLoading ? (
+        <div className="loading-text">loading...</div>
+      ) : null}
+      <br />
       <div className={isListView ? "" : "movie-grid-view"}>
         {movieList
           ? movieList.map((movie: any) => {
@@ -79,9 +76,7 @@ export default function MovieList() {
             })
           : null}
       </div>
-      {movieByMovieTypeLoading || movieByQueryLoading ? (
-        <div className="loading-text">loading...</div>
-      ) : null}
+
       <ToastContainer
         position="bottom-right"
         autoClose={false}
