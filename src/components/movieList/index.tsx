@@ -1,29 +1,45 @@
 import "./styles.scss";
-import { useGetMovieNowPlayinngQuery } from "../../service/movieAPi";
+import {
+  useGetMovieNowPlayinngQuery,
+  useGetMovieBySearchQuery,
+} from "../../service/movieAPi";
 import MovieItemGridView from "../movieItem/gridView/MovieItemGridView";
 import MovieItemListView from "../movieItem/listView/MovieItemListView";
 import { initMovieSate } from "../../store/slice/moiveSlice";
 import { useAppDispatch, useAppSelector } from "../../store/hook";
-import { useCallback, useEffect } from "react";
+import { useEffect, useMemo } from "react";
 
 export default function MovieList() {
-  const { page, isListView, movieListType } = useAppSelector(
+  const dispatch = useAppDispatch();
+
+  const { page, isListView, movieListType, query, totalpage } = useAppSelector(
     (state) => state.movies
   );
-  const { data, error, isLoading } = useGetMovieNowPlayinngQuery({
+
+  const { data: movieByMovieType, isLoading } = useGetMovieNowPlayinngQuery({
     page,
     movieListType,
   });
-  const dispatch = useAppDispatch();
 
+  const { data: movieByQuery } = useGetMovieBySearchQuery({ page, query });
+
+  const movieList = useMemo(() => {
+    if (movieByQuery?.results?.length) return movieByQuery?.results;
+    if (movieByMovieType?.results?.length) return movieByMovieType?.results;
+  }, [movieByQuery, movieByMovieType]);
+
+  // Get init total page
   useEffect(() => {
-    if (data?.total_pages) dispatch(initMovieSate(data.total_pages));
-  }, [data]);
+    if (movieByQuery?.total_results)
+      dispatch(initMovieSate(movieByQuery.total_pages));
+    if (movieByMovieType?.total_results)
+      dispatch(initMovieSate(movieByMovieType.total_pages));
+  }, [movieList]);
 
   return (
     <div className={isListView ? "" : "movie-grid-view"}>
-      {data?.results
-        ? data?.results.map((movie: any) => {
+      {movieList
+        ? movieList.map((movie: any) => {
             if (isListView)
               return <MovieItemListView key={movie.id} movie={movie} />;
             return <MovieItemGridView key={movie.id} movie={movie} />;

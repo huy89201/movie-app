@@ -8,6 +8,7 @@ interface MovieState {
   totalpage: number;
   isListView: boolean;
   movieListType: string;
+  query: string;
 }
 
 const initialState: MovieState = {
@@ -16,6 +17,7 @@ const initialState: MovieState = {
   totalpage: 0,
   isListView: false,
   movieListType: MOVIE_LIST.NOW_PLAYING,
+  query: "",
 };
 
 export const movieSlice = createSlice({
@@ -39,6 +41,11 @@ export const movieSlice = createSlice({
     changeMovieListType: (state, action: PayloadAction<string>) => {
       state.movieListType = action.payload;
       state.page = 1;
+      state.query = "";
+    },
+    changeQuery: (state, action: PayloadAction<string>) => {
+      state.query = action.payload;
+      state.page = 1;
     },
   },
 });
@@ -49,6 +56,7 @@ export const {
   previousPage,
   changeViewMode,
   changeMovieListType,
+  changeQuery,
 } = movieSlice.actions;
 
 export const selectMovie = (state: RootState) => state.movies.movies;
