@@ -1,0 +1,11 @@
+@import "../../styles/variables";
+
+.pagination {
+  font-size: 18px;
+  font-weight: 500;
+  color: $mountain-mist-50;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}

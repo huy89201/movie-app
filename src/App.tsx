@@ -1,13 +1,22 @@
-import './App.scss';
-import { useGetMovieNowPlayinngQuery } from './service/movieAPi';
+import "./App.scss";
+import SearchBar from "./components/searchBar";
+import Container from "./components/container";
+import ControlBar from "./components/controlBar";
+import MovieList from "./components/movieList";
+import Pagination from "./components/pagination";
 
 function App() {
-  const { data, error, isLoading } = useGetMovieNowPlayinngQuery(null)
-  console.log(data)
-
   return (
     <div className="App">
-      <h1> hello world</h1>
+      <Container>
+        <SearchBar />
+        <br />
+        <ControlBar />
+        <br />
+        <MovieList />
+        <br />
+        <Pagination />
+      </Container>
     </div>
   );
 }
