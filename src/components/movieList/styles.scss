@@ -1,8 +1,17 @@
+@import "../../styles/variables";
+
 .movie-grid-view {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 16px;
   grid-auto-rows: minmax(250px, auto);
+}
+
+.loading-text {
+  text-align: center;
+  font-size: 600;
+  font-weight: 18px;
+  color: $mountain-mist-50;
 }
 
 @media (max-width: 1024px) {
