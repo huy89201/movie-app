@@ -1,5 +1,17 @@
 @import "../../styles/variables";
 
+
+.switch-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.label {
+  font-size: 18px;
+  font-weight: 600;
+  color: $mountain-mist-50;
+}
+
 /* The switch - the box around the slider */
 .switch {
   position: relative;

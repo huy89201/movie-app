@@ -5,7 +5,7 @@ interface Props {
 }
 export default function MovieItemGridView({ movie }: Props) {
   return (
-    <div className="card">
+    <div className="card-grid-view">
       <img
         src={`https://image.tmdb.org/t/p/original/${movie.poster_path}`}
         loading="lazy"

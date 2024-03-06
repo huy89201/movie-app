@@ -1,6 +1,6 @@
 @import "../../../styles/variables";
 
-.card {
+.card-grid-view {
   height: 100%;
   display: flex;
   color: $mountain-mist-50;
@@ -36,7 +36,7 @@
   }
 }
 
-.card:hover {
+.card-grid-view:hover {
     .title {
         height: 50%;
     }

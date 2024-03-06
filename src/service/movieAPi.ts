@@ -6,8 +6,8 @@ export const movieApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: process.env.REACT_APP_BASE_URL }),
   endpoints: (builder) => ({
     getMovieNowPlayinng: builder.query({
-      query: (page) => ({
-        url: `/movie/now_playing?language=en-US&page=${page}`,
+      query: ({page, movieListType}) => ({
+        url: `/movie/${movieListType}?language=en-US&page=${page}`,
         ...options,
       }),
     }),
